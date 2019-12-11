@@ -1,0 +1,46 @@
+{
+  "inStock": [
+    {
+      "warehouseId": 1,
+      "productId": 1,
+      "dateArrived": "December 17, 2019",
+      "dateSent": "December 18, 2019"
+    },
+    {
+      "warehouseId": 1,
+      "productId": 2,
+      "dateArrived": "December 15, 2019",
+      "dateSent": "December 20, 2019"
+    },
+    {
+      "warehouseId": 2,
+      "productId": 3,
+      "dateArrived": "December 5, 2019",
+      "dateSent": "December 5, 2019"
+    },
+    {
+      "warehouseId": 3,
+      "productId": 4,
+      "dateArrived": "December 6, 2019",
+      "dateSent": "December 8, 2019"
+    },
+    {
+      "warehouseId": 3,
+      "productId": 5,
+      "dateArrived": "December 8, 2019",
+      "dateSent": "December 10, 2019"
+    },
+    {
+      "warehouseId": 4,
+      "productId": 5,
+      "dateArrived": "December 10, 2019",
+      "dateSent": "December 20, 2019"
+    },
+    {
+      "warehouseId": 5,
+      "productId": 2,
+      "dateArrived": "December 1, 2019",
+      "dateSent": "December 3, 2019"
+    }
+  ]
+}

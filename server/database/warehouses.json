@@ -1,0 +1,24 @@
+{
+  "warehouses": [
+    {
+      "warehouseId": 1,
+      "address": "WAREHOUSE ADDRESS 1"
+    },
+    {
+      "warehouseId": 2,
+      "address": "WAREHOUSE ADDRESS 2"
+    },
+    {
+      "warehouseId": 3,
+      "address": "WAREHOUSE ADDRESS 3"
+    },
+    {
+      "warehouseId": 4,
+      "address": "WAREHOUSE ADDRESS 4"
+    },
+    {
+      "warehouseId": 5,
+      "address": "WAREHOUSE ADDRESS 5"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "products": [
+    {
+      "productId": 1,
+      "type": "drill",
+      "title": "Dewalt Drill 18V 1",
+      "price": 20
+    },
+    {
+      "productId": 2,
+      "type": "drill",
+      "title": "Dewalt Drill 18V 2",
+      "price": 18
+    },
+    {
+      "productId": 3,
+      "type": "laminate",
+      "title": "Natural Oak Laminate",
+      "price": 33.03
+    },
+    {
+      "productId": 4,
+      "type": "sanders",
+      "title": "Mac Allister Corded 160W",
+      "price": 20
+    },
+    {
+      "productId": 5,
+      "type": "wallpaper",
+      "title": "GoodHome Ornata Midnight Wallpaper",
+      "price": 16
+    }
+  ]
+}
