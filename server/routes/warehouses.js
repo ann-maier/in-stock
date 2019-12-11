@@ -72,4 +72,36 @@ router.delete("/:id", (request, response) => {
   });
 });
 
+router.put("/:id", (request, response) => {
+  const id = request.params.id;
+  const { address } = request.body;
+
+  fs.readFile("database/warehouses.json", (error, data) => {
+    if (error) {
+      response.status(404).json({
+        error
+      });
+    }
+
+    const parsedData = JSON.parse(data);
+
+    parsedData.warehouses = parsedData.warehouses.map(warehouse => {
+      if (+warehouse.warehouseId === +id) {
+        warehouse.address = address;
+      }
+
+      return warehouse;
+    });
+
+    fs.writeFile("database/warehouses.json", JSON.stringify(parsedData), (error) => {
+      if (error) {
+        response.status(404).json({
+          error
+        });
+      }
+      response.status(200).send();
+    });
+  });
+});
+
 module.exports = router;
