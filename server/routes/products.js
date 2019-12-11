@@ -127,4 +127,38 @@ router.put('/:id', (request, response) => {
   });
 });
 
+router.put("/:id", (request, response) => {
+  const id = request.params.id;
+  const { type, title, price } = request.body;
+
+  fs.readFile("database/products.json", (error, data) => {
+    if (error) {
+      response.status(404).json({
+        error
+      });
+    }
+
+    const parsedData = JSON.parse(data);
+
+    parsedData.products = parsedData.products.map(product => {
+      if (+product.productId === +id) {
+        product.type = type;
+        product.title = title;
+        product.price = price;
+      }
+
+      return product;
+    });
+
+    fs.writeFile("database/products.json", JSON.stringify(parsedData), (error) => {
+      if (error) {
+        response.status(404).json({
+          error
+        });
+      }
+      response.status(200).send();
+    });
+  });
+});
+
 module.exports = router;
