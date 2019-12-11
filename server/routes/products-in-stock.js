@@ -1,18 +1,30 @@
-const express = require("express");
-const fs = require("fs");
+const express = require('express');
+const pool = require('../database/sql/mysql-config');
 
 const router = express.Router();
 
-router.get("/", (request, response) => {
-  fs.readFile("database/products-in-stock.json", (error, data) => {
-    if (error) {
-      response.status(404).json({
-        error
-      });
-    }
+router.get('/', (request, response) => {
+  const query = `SELECT * FROM products_in_stock`;
 
-    response.status(200).send(JSON.parse(data));
+  const promise = new Promise((resolve, reject) => {
+    pool.query(query, (error, data) => {
+      if (error) {
+        reject(error);
+      }
+
+      resolve(data);
+    });
   });
+
+  return promise
+    .then(data => {
+      response.send(data);
+    })
+    .catch(error => {
+      response.status(500).send({
+        message: error
+      });
+    });
 });
 
 module.exports = router;

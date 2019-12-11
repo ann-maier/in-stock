@@ -1,24 +1,37 @@
-const express = require("express");
-const fs = require("fs");
+const express = require('express');
+const fs = require('fs');
 
+const pool = require('../database/sql/mysql-config');
 const router = express.Router();
 
-router.get("/", (request, response) => {
-  fs.readFile("database/warehouses.json", (error, data) => {
-    if (error) {
-      response.status(404).json({
-        error
-      });
-    }
+router.get('/', (request, response) => {
+  const query = `SELECT * FROM warehouses`;
 
-    response.status(200).send(JSON.parse(data));
+  const promise = new Promise((resolve, reject) => {
+    pool.query(query, (error, data) => {
+      if (error) {
+        reject(error);
+      }
+
+      resolve(data);
+    });
   });
+
+  return promise
+    .then(data => {
+      response.send(data);
+    })
+    .catch(error => {
+      response.status(500).send({
+        message: error
+      });
+    });
 });
 
-router.post("/", (request, response) => {
+router.post('/', (request, response) => {
   const { address } = request.body;
 
-  fs.readFile("database/warehouses.json", (error, data) => {
+  fs.readFile('database/warehouses.json', (error, data) => {
     if (error) {
       response.status(404).json({
         error
@@ -36,14 +49,49 @@ router.post("/", (request, response) => {
 
     parsedData.warehouses.push({ warehouseId: lastId + 1, address });
 
-    fs.writeFile("database/warehouses.json", JSON.stringify(parsedData), (error) => {
-      if (error) {
-        response.status(404).json({
-          error
-        });
+    fs.writeFile(
+      'database/warehouses.json',
+      JSON.stringify(parsedData),
+      error => {
+        if (error) {
+          response.status(404).json({
+            error
+          });
+        }
+        response.status(200).send();
       }
-      response.status(200).send();
-    });
+    );
+  });
+});
+
+router.delete('/:id', (request, response) => {
+  const id = request.params.id;
+
+  fs.readFile('database/warehouses.json', (error, data) => {
+    if (error) {
+      response.status(404).json({
+        error
+      });
+    }
+
+    const parsedData = JSON.parse(data);
+
+    parsedData.warehouses = parsedData.warehouses.filter(
+      ({ warehouseId }) => +warehouseId !== +id
+    );
+
+    fs.writeFile(
+      'database/warehouses.json',
+      JSON.stringify(parsedData),
+      error => {
+        if (error) {
+          response.status(404).json({
+            error
+          });
+        }
+        response.status(200).send();
+      }
+    );
   });
 });
 

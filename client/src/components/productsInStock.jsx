@@ -14,15 +14,15 @@ const ProductsInStockModal = ({ showModal, setShowModal }) => {
 }
 
 export const ProductsInStock = ({ selectedItem, setSelectedItem }) => {
-    const { warehouseId: selectedWarehouseId = null, productId: selectedProductId = null } = selectedItem;
+    const { id_warehouse: selectedWarehouseId = null, id_product: selectedProductId = null } = selectedItem;
 
     const [products, setProducts] = React.useState([]);
     const [showModal, setShowModal] = React.useState(false);
 
     React.useEffect(() => {
         axios.get(PRODUCTS_IN_STOCK_URL)
-            .then(({ data: { inStock } }) => {
-                setProducts(inStock);
+            .then(({ data }) => {
+                setProducts(data);
             });
     }, []);
 
@@ -41,16 +41,16 @@ export const ProductsInStock = ({ selectedItem, setSelectedItem }) => {
                 </thead>
                 <tbody>
                     {products
-                        .sort((a, b) => a.warehouseId - b.warehouseId)
-                        .map((product, key) => (
-                            <tr key={key} onClick={() => setSelectedItem(product)}
-                                className={selectedProductId === product.productId && selectedWarehouseId === product.warehouseId
-                                    ? "selected-item"
+                        .sort((a, b) => a.id_warehouse - b.id_warehouse)
+                        .map((product) => (
+                            <tr key={product.id} onClick={() => setSelectedItem(product)}
+                                className={selectedProductId === product.id_product && selectedWarehouseId === product.id_warehouse
+                                    ? "SelectedItem"
                                     : null}>
-                                <td>{product.warehouseId}</td>
-                                <td>{product.productId}</td>
-                                <td>{product.dateArrived}</td>
-                                <td>{product.dateSent}</td>
+                                <td>{product.id_warehouse}</td>
+                                <td>{product.id_product}</td>
+                                <td>{product.date_arrived}</td>
+                                <td>{product.date_sent}</td>
                                 <td>
                                     <button onClick={() => setShowModal(true)}>Редактировать</button>
                                 </td>
