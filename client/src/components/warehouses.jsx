@@ -5,6 +5,7 @@ import { WAREHOUSES_URL } from "../utils/constants";
 
 export const Warehouses = ({ selectedItem, setSelectedItem }) => {
     const [warehouses, setWareHouses] = React.useState([]);
+    const { warehouseId: selectedWarehouseId = null } = selectedItem
 
     React.useEffect(() => {
         axios.get(WAREHOUSES_URL)
@@ -27,7 +28,9 @@ export const Warehouses = ({ selectedItem, setSelectedItem }) => {
                     {warehouses
                         .sort((a, b) => a.warehouseId - b.warehouseId)
                         .map(({ warehouseId, address }) => (
-                            <tr key={warehouseId} onClick={() => setSelectedItem({ warehouseId, address })}>
+                            <tr key={warehouseId}
+                                onClick={() => setSelectedItem({ warehouseId, address })}
+                                className={selectedWarehouseId === warehouseId ? "SelectedItem" : null}>
                                 <td>{warehouseId}</td>
                                 <td>{address}</td>
                             </tr>

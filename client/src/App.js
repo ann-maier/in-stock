@@ -9,8 +9,6 @@ import "./App.css";
 export const App = () => {
   const [selectedItem, setSelectedItem] = React.useState({});
 
-  console.log(selectedItem);
-
   return (
     <div className="App">
       <Warehouses

@@ -8,13 +8,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 table {
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
   border-spacing: 0;
 }
 
@@ -28,4 +24,9 @@ tr,
 td {
   padding: 10px 5px;
   border: 1px solid white;
+}
+
+
+.SelectedItem {
+  background-color: red;
 }

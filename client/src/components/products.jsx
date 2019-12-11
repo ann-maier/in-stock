@@ -5,6 +5,7 @@ import { PRODUCTS_URL } from "../utils/constants";
 
 export const Products = ({ selectedItem, setSelectedItem }) => {
     const [products, setProducts] = React.useState([]);
+    const { productId: selectedProductId = null } = selectedItem
 
     React.useEffect(() => {
         axios.get(PRODUCTS_URL)
@@ -29,7 +30,9 @@ export const Products = ({ selectedItem, setSelectedItem }) => {
                     {products
                         .sort((a, b) => a.productId - b.productId)
                         .map(({ productId, type, title, price }) => (
-                            <tr key={productId} onClick={() => setSelectedItem({ productId, type, title, price })} >
+                            <tr key={productId}
+                                onClick={() => setSelectedItem({ productId, type, title, price })}
+                                className={selectedProductId === productId ? "SelectedItem" : null}>
                                 <td>{productId}</td>
                                 <td>{type}</td>
                                 <td>{title}</td>
