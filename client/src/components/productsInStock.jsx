@@ -5,7 +5,7 @@ import { PRODUCTS_IN_STOCK_URL } from "../utils/constants";
 
 export const ProductsInStock = ({ selectedItem, setSelectedItem }) => {
     const [products, setProducts] = React.useState([]);
-    const { warehouseId: selectedWarehouseId = null, productId: selectedProductId = null } = selectedItem
+    const { warehouseId: selectedWarehouseId = null, productId: selectedProductId = null } = selectedItem;
 
     React.useEffect(() => {
         axios.get(PRODUCTS_IN_STOCK_URL)

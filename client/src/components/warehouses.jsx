@@ -5,7 +5,7 @@ import { WAREHOUSES_URL } from "../utils/constants";
 
 export const Warehouses = ({ selectedItem, setSelectedItem }) => {
     const [warehouses, setWareHouses] = React.useState([]);
-    const { warehouseId: selectedWarehouseId = null } = selectedItem
+    const { warehouseId: selectedWarehouseId = null } = selectedItem;
 
     React.useEffect(() => {
         axios.get(WAREHOUSES_URL)

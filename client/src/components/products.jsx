@@ -5,7 +5,7 @@ import { PRODUCTS_URL } from "../utils/constants";
 
 export const Products = ({ selectedItem, setSelectedItem }) => {
     const [products, setProducts] = React.useState([]);
-    const { productId: selectedProductId = null } = selectedItem
+    const { productId: selectedProductId = null } = selectedItem;
 
     React.useEffect(() => {
         axios.get(PRODUCTS_URL)

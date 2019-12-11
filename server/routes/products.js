@@ -47,4 +47,29 @@ router.post("/", (request, response) => {
   });
 });
 
+router.delete("/:id", (request, response) => {
+  const id = request.params.id;
+
+  fs.readFile("database/products.json", (error, data) => {
+    if (error) {
+      response.status(404).json({
+        error
+      });
+    }
+
+    const parsedData = JSON.parse(data);
+
+    parsedData.products = parsedData.products.filter(({ productId }) => +productId !== +id);
+
+    fs.writeFile("database/products.json", JSON.stringify(parsedData), (error) => {
+      if (error) {
+        response.status(404).json({
+          error
+        });
+      }
+      response.status(200).send();
+    });
+  });
+});
+
 module.exports = router;
