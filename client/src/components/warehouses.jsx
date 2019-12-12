@@ -3,9 +3,21 @@ import axios from "axios";
 
 import { WAREHOUSES_URL } from "../utils/constants";
 
+import { Modal } from "./modal";
+
+const WarehousesModal = ({ showModal, setShowModal }) => {
+    return (
+        <Modal show={showModal} handleClose={() => setShowModal(false)}>
+            <p>Warehouses Modal</p>
+        </Modal>
+    );
+}
+
 export const Warehouses = ({ selectedItem, setSelectedItem }) => {
+    const { warehouseId: selectedWarehouseId = null } = selectedItem;
+
     const [warehouses, setWareHouses] = React.useState([]);
-    const { warehouseId: selectedWarehouseId = null } = selectedItem
+    const [showModal, setShowModal] = React.useState(false);
 
     React.useEffect(() => {
         axios.get(WAREHOUSES_URL)
@@ -17,6 +29,7 @@ export const Warehouses = ({ selectedItem, setSelectedItem }) => {
     return warehouses && (
         <>
             <h1>Склад</h1>
+            <WarehousesModal showModal={showModal} setShowModal={setShowModal} />
             <table>
                 <thead>
                     <tr>
@@ -30,9 +43,15 @@ export const Warehouses = ({ selectedItem, setSelectedItem }) => {
                         .map(({ warehouseId, address }) => (
                             <tr key={warehouseId}
                                 onClick={() => setSelectedItem({ warehouseId, address })}
-                                className={selectedWarehouseId === warehouseId ? "SelectedItem" : null}>
+                                className={selectedWarehouseId === warehouseId ? "selected-item" : null}>
                                 <td>{warehouseId}</td>
                                 <td>{address}</td>
+                                <td>
+                                    <button onClick={() => setShowModal(true)}>Редактировать</button>
+                                </td>
+                                <td>
+                                    <button>Удалить</button>
+                                </td>
                             </tr>
                         ))}
                 </tbody>
