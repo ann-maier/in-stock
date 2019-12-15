@@ -1,10 +1,11 @@
 const express = require("express");
 
+const DatabaseQueries = require("../database/utils/database-queries");
 const pool = require("../database/sql/mysql-config");
 const router = express.Router();
 
 router.get("/", (request, response) => {
-  const query = `SELECT * FROM products`;
+  const query = DatabaseQueries.getDataFromTable("products");
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
@@ -30,8 +31,12 @@ router.get("/", (request, response) => {
 router.post("/", (request, response) => {
   const { id, type, title, price } = request.body;
 
-  const query = `
-  INSERT INTO products (id, type, name, price) VALUES (${id}, '${type}', '${title}', '${price}');`;
+  const query = DatabaseQueries.insertIntoTableValues("products", {
+    id,
+    type: `"${type}"`,
+    name: `"${title}"`,
+    price: `"${price}"`
+  });
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
@@ -56,8 +61,12 @@ router.put("/:id", (request, response) => {
   const id = request.params.id;
   const { type, title, price } = request.body;
 
-  const query = `
-  UPDATE products SET type = '${type}', name = '${title}', price = ${price} WHERE id = ${id};`;
+  const query = DatabaseQueries.updateTableValues("products", id, {
+    id,
+    type: `"${type}"`,
+    name: `"${title}"`,
+    price: `"${price}"`
+  });
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
@@ -80,7 +89,7 @@ router.put("/:id", (request, response) => {
 
 router.delete("/:id", (request, response) => {
   const id = request.params.id;
-  const query = `DELETE FROM products WHERE id = ${id};`;
+  const query = DatabaseQueries.deleteValueFromTable("products", id);
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {

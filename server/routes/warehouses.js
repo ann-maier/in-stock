@@ -1,10 +1,11 @@
 const express = require("express");
 
+const DatabaseQueries = require("../database/utils/database-queries");
 const pool = require("../database/sql/mysql-config");
 const router = express.Router();
 
 router.get("/", (request, response) => {
-  const query = `SELECT * FROM warehouses`;
+  const query = DatabaseQueries.getDataFromTable("warehouses");
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
@@ -28,7 +29,10 @@ router.get("/", (request, response) => {
 router.post("/", (request, response) => {
   const { id, address } = request.body;
 
-  const query = `INSERT INTO warehouses (id, address) VALUES (${id}, '${address}');`;
+  const query = DatabaseQueries.insertIntoTableValues("warehouses", {
+    id,
+    address: `"${address}"`
+  });
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
@@ -53,7 +57,9 @@ router.put("/:id", (request, response) => {
   const id = request.params.id;
   const { address } = request.body;
 
-  const query = `UPDATE warehouses SET address = '${address}' WHERE id = ${id};`;
+  const query = DatabaseQueries.updateTableValues("warehouses", id, {
+    address: `"${address}"`
+  });
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
@@ -76,7 +82,7 @@ router.put("/:id", (request, response) => {
 
 router.delete("/:id", (request, response) => {
   const id = request.params.id;
-  const query = `DELETE FROM warehouses WHERE id = ${id};`;
+  const query = DatabaseQueries.deleteValueFromTable("warehouses", id);
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
