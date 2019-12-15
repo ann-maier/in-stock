@@ -15,7 +15,6 @@ const WarehousesModal = ({ showModal, setShowModal }) => {
 
 export const Warehouses = ({ selectedItem, setSelectedItem }) => {
     const { id_warehouse: selectedWarehouseId = null } = selectedItem;
-    console.log(selectedItem)
 
     const [warehouses, setWareHouses] = React.useState([]);
     const [showModal, setShowModal] = React.useState(false);
@@ -43,7 +42,7 @@ export const Warehouses = ({ selectedItem, setSelectedItem }) => {
                         .sort((a, b) => a.id - b.id)
                         .map(({ id, address }) => (
                             <tr key={id}
-                                onClick={() => setSelectedItem({ id_warehouse })}
+                                onClick={() => setSelectedItem({ id_warehouse: id })}
                                 className={selectedWarehouseId === id ? "selected-item" : null}>
                                 <td>{id}</td>
                                 <td>{address}</td>

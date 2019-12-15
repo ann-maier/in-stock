@@ -14,7 +14,7 @@ const ProductsModal = ({ showModal, setShowModal }) => {
 }
 
 export const Products = ({ selectedItem, setSelectedItem }) => {
-    const { id: selectedProductId = null } = selectedItem;
+    const { id_product: selectedProductId = null } = selectedItem;
 
     const [products, setProducts] = React.useState([]);
     const [showModal, setShowModal] = React.useState(false);
@@ -49,7 +49,7 @@ export const Products = ({ selectedItem, setSelectedItem }) => {
                         .sort((a, b) => a.id - b.id)
                         .map(({ id, type, name, price }) => (
                             <tr key={id}
-                                onClick={() => setSelectedItem({ id, type, name, price })}
+                                onClick={() => setSelectedItem({ id_product: id })}
                                 className={selectedProductId === id ? "selected-item" : null}>
                                 <td>{id}</td>
                                 <td>{type}</td>

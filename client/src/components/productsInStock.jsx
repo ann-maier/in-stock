@@ -43,9 +43,10 @@ export const ProductsInStock = ({ selectedItem, setSelectedItem }) => {
                     {products
                         .sort((a, b) => a.id_warehouse - b.id_warehouse)
                         .map((product) => (
-                            <tr key={product.id} onClick={() => setSelectedItem(product)}
+                            <tr key={product.id}
+                                onClick={() => setSelectedItem({ id_product: product.id_product, id_warehouse: product.id_warehouse })}
                                 className={selectedProductId === product.id_product && selectedWarehouseId === product.id_warehouse
-                                    ? "SelectedItem"
+                                    ? "selected-item"
                                     : null}>
                                 <td>{product.id_warehouse}</td>
                                 <td>{product.id_product}</td>
