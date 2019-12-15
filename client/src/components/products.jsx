@@ -14,17 +14,22 @@ const ProductsModal = ({ showModal, setShowModal }) => {
 }
 
 export const Products = ({ selectedItem, setSelectedItem }) => {
-    const { productId: selectedProductId = null } = selectedItem;
+    const { id_product: selectedProductId = null } = selectedItem;
 
     const [products, setProducts] = React.useState([]);
     const [showModal, setShowModal] = React.useState(false);
 
     React.useEffect(() => {
         axios.get(PRODUCTS_URL)
-            .then(({ data: { products } }) => {
-                setProducts(products);
+            .then(({ data }) => {
+                setProducts(data);
             });
     }, []);
+
+    const deleteProduct = id => {
+        axios.delete(`${PRODUCTS_URL}/${id}`)
+            .then(() => setProducts(products.filter(({ id: productId }) => productId !== id)));
+    }
 
     return products && (
         <>
@@ -41,20 +46,20 @@ export const Products = ({ selectedItem, setSelectedItem }) => {
                 </thead>
                 <tbody>
                     {products
-                        .sort((a, b) => a.productId - b.productId)
-                        .map(({ productId, type, title, price }) => (
-                            <tr key={productId}
-                                onClick={() => setSelectedItem({ productId, type, title, price })}
-                                className={selectedProductId === productId ? "selected-item" : null}>
-                                <td>{productId}</td>
+                        .sort((a, b) => a.id - b.id)
+                        .map(({ id, type, name, price }) => (
+                            <tr key={id}
+                                onClick={() => setSelectedItem({ id_product: id })}
+                                className={selectedProductId === id ? "selected-item" : null}>
+                                <td>{id}</td>
                                 <td>{type}</td>
-                                <td>{title}</td>
+                                <td>{name}</td>
                                 <td>{price}</td>
                                 <td>
                                     <button onClick={() => setShowModal(true)}>Редактировать</button>
                                 </td>
                                 <td>
-                                    <button>Удалить</button>
+                                    <button onClick={() => deleteProduct(id)}>Удалить</button>
                                 </td>
                             </tr>
                         ))}

@@ -14,15 +14,15 @@ const WarehousesModal = ({ showModal, setShowModal }) => {
 }
 
 export const Warehouses = ({ selectedItem, setSelectedItem }) => {
-    const { warehouseId: selectedWarehouseId = null } = selectedItem;
+    const { id_warehouse: selectedWarehouseId = null } = selectedItem;
 
     const [warehouses, setWareHouses] = React.useState([]);
     const [showModal, setShowModal] = React.useState(false);
 
     React.useEffect(() => {
         axios.get(WAREHOUSES_URL)
-            .then(({ data: { warehouses } }) => {
-                setWareHouses(warehouses);
+            .then(({ data }) => {
+                setWareHouses(data);
             });
     }, []);
 
@@ -39,12 +39,12 @@ export const Warehouses = ({ selectedItem, setSelectedItem }) => {
                 </thead>
                 <tbody>
                     {warehouses
-                        .sort((a, b) => a.warehouseId - b.warehouseId)
-                        .map(({ warehouseId, address }) => (
-                            <tr key={warehouseId}
-                                onClick={() => setSelectedItem({ warehouseId, address })}
-                                className={selectedWarehouseId === warehouseId ? "selected-item" : null}>
-                                <td>{warehouseId}</td>
+                        .sort((a, b) => a.id - b.id)
+                        .map(({ id, address }) => (
+                            <tr key={id}
+                                onClick={() => setSelectedItem({ id_warehouse: id })}
+                                className={selectedWarehouseId === id ? "selected-item" : null}>
+                                <td>{id}</td>
                                 <td>{address}</td>
                                 <td>
                                     <button onClick={() => setShowModal(true)}>Редактировать</button>
