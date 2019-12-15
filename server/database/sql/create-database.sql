@@ -47,8 +47,8 @@ CREATE TABLE `products_in_stock` (
   PRIMARY KEY (`id`),
   KEY `id_warehouse_idx` (`id_warehouse`),
   KEY `id_product_idx` (`id_product`),
-  CONSTRAINT `id_product` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`),
-  CONSTRAINT `id_warehouse` FOREIGN KEY (`id_warehouse`) REFERENCES `warehouses` (`id`)
+  CONSTRAINT `id_product` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE RESTRICT,
+  CONSTRAINT `id_warehouse` FOREIGN KEY (`id_warehouse`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
