@@ -40,15 +40,15 @@ DROP TABLE IF EXISTS `products_in_stock`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `products_in_stock` (
   `id` int(11) NOT NULL,
-  `id_warehouse` int(11) DEFAULT NULL,
-  `id_product` int(11) DEFAULT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
   `date_arrived` varchar(45) DEFAULT NULL,
   `date_sent` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `id_warehouse_idx` (`id_warehouse`),
-  KEY `id_product_idx` (`id_product`),
-  CONSTRAINT `id_product` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE RESTRICT,
-  CONSTRAINT `id_warehouse` FOREIGN KEY (`id_warehouse`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE
+  KEY `warehouse_id_idx` (`warehouse_id`),
+  KEY `id_product_idx` (`product_id`),
+  CONSTRAINT `product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE RESTRICT,
+  CONSTRAINT `warehouse_id` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
