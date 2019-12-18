@@ -1,10 +1,11 @@
 const express = require("express");
 
+const DatabaseQueries = require("../database/utils/database-queries");
 const pool = require("../database/sql/mysql-config");
 const router = express.Router();
 
 router.get("/", (request, response) => {
-  const query = `SELECT * FROM products_in_stock`;
+  const query = DatabaseQueries.getDataFromTable("products_in_stock");
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
@@ -30,9 +31,13 @@ router.get("/", (request, response) => {
 router.post("/", (request, response) => {
   const { id, warehouseId, productId, dateArrived, dateSent } = request.body;
 
-  const query = `
-  INSERT INTO products_in_stock (id, id_warehouse, id_product, date_arrived, date_sent) 
-  VALUES (${id}, ${warehouseId}, ${productId}, '${dateArrived}', '${dateSent}');`;
+  const query = DatabaseQueries.insertIntoTableValues("products_in_stock", {
+    id,
+    id_warehouse: warehouseId,
+    id_product: productId,
+    date_arrived: `"${dateArrived}"`,
+    date_sent: `"${dateSent}"`
+  });
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
@@ -57,9 +62,12 @@ router.put("/:id", (request, response) => {
   const id = request.params.id;
   const { warehouseId, productId, dateArrived, dateSent } = request.body;
 
-  const query = `UPDATE products_in_stock 
-  SET id_warehouse = ${warehouseId}, id_product = ${productId}, date_arrived = '${dateArrived}', date_sent = '${dateSent}' 
-  WHERE id = ${id};`;
+  const query = DatabaseQueries.updateTableValues("products_in_stock", id, {
+    id_warehouse: warehouseId,
+    id_product: productId,
+    date_arrived: `"${dateArrived}"`,
+    date_sent: `"${dateSent}"`
+  });
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
@@ -82,7 +90,7 @@ router.put("/:id", (request, response) => {
 
 router.delete("/:id", (request, response) => {
   const id = request.params.id;
-  const query = `DELETE FROM products_in_stock WHERE id = ${id};`;
+  const query = DatabaseQueries.deleteValueFromTable("products_in_stock", id);
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
