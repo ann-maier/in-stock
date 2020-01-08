@@ -78,8 +78,8 @@ const ProductsInStockModal = ({
 export const ProductsInStock = ({ selectedItem, setSelectedItem }) => {
   const {
     id = null,
-    warehouse_id: selectedWarehouseId = null,
-    product_id: selectedProductId = null
+    id_warehouse: selectedWarehouseId = null,
+    id_product: selectedProductId = null
   } = selectedItem;
 
   const [products, setProducts] = React.useState([]);
@@ -162,26 +162,26 @@ export const ProductsInStock = ({ selectedItem, setSelectedItem }) => {
           </thead>
           <tbody>
             {products
-              .sort((a, b) => a.warehouse_id - b.warehouse_id)
+              .sort((a, b) => a.id_warehouse - b.id_warehouse)
               .map(product => (
                 <tr
                   key={product.id}
                   onClick={() =>
                     setSelectedItem({
                       id: product.id,
-                      product_id: product.product_id,
-                      warehouse_id: product.warehouse_id
+                      id_product: product.id_product,
+                      id_warehouse: product.id_warehouse
                     })
                   }
                   className={
-                    selectedProductId === product.product_id &&
-                    selectedWarehouseId === product.warehouse_id
+                    selectedProductId === product.id_product &&
+                    selectedWarehouseId === product.id_warehouse
                       ? "selected-item"
                       : null
                   }
                 >
-                  <td>{product.warehouse_id}</td>
-                  <td>{product.product_id}</td>
+                  <td>{product.id_warehouse}</td>
+                  <td>{product.id_product}</td>
                   <td>{product.date_arrived}</td>
                   <td>{product.date_sent}</td>
                   <td>
