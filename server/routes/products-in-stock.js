@@ -5,7 +5,7 @@ const pool = require("../database/sql/mysql-config");
 const router = express.Router();
 
 router.get("/", (request, response) => {
-  const query = DatabaseQueries.getDataFromTable("products_in_stock");
+  const query = DatabaseQueries.getDataFromTable("in_stock_products");
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {
@@ -31,10 +31,10 @@ router.get("/", (request, response) => {
 router.post("/", (request, response) => {
   const { id, warehouseId, productId, dateArrived, dateSent } = request.body;
 
-  const query = DatabaseQueries.insertIntoTableValues("products_in_stock", {
+  const query = DatabaseQueries.insertIntoTableValues("in_stock_products", {
     id,
-    id_warehouse: warehouseId,
-    id_product: productId,
+    warehouse_id: warehouseId,
+    product_id: productId,
     date_arrived: `"${dateArrived}"`,
     date_sent: `"${dateSent}"`
   });
@@ -62,9 +62,9 @@ router.put("/:id", (request, response) => {
   const id = request.params.id;
   const { warehouseId, productId, dateArrived, dateSent } = request.body;
 
-  const query = DatabaseQueries.updateTableValues("products_in_stock", id, {
-    id_warehouse: warehouseId,
-    id_product: productId,
+  const query = DatabaseQueries.updateTableValues("in_stock_products", id, {
+    warehouse_id: warehouseId,
+    product_id: productId,
     date_arrived: `"${dateArrived}"`,
     date_sent: `"${dateSent}"`
   });
@@ -90,7 +90,7 @@ router.put("/:id", (request, response) => {
 
 router.delete("/:id", (request, response) => {
   const id = request.params.id;
-  const query = DatabaseQueries.deleteValueFromTable("products_in_stock", id);
+  const query = DatabaseQueries.deleteValueFromTable("in_stock_products", id);
 
   const promise = new Promise((resolve, reject) => {
     pool.query(query, (error, data) => {

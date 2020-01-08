@@ -1,106 +1,37 @@
 const express = require("express");
 
-const DatabaseQueries = require("../database/utils/database-queries");
-const pool = require("../database/sql/mysql-config");
+const Warehouse = require("../sequelize/models/warehouse");
 const router = express.Router();
 
 router.get("/", (request, response) => {
-  const query = DatabaseQueries.getDataFromTable("warehouses");
-
-  const promise = new Promise((resolve, reject) => {
-    pool.query(query, (error, data) => {
-      if (error) {
-        reject(error);
-      }
-
-      resolve(data);
-    });
-  });
-
-  return promise
-    .then(data => {
-      response.send(data);
-    })
-    .catch(error => {
-      response.status(500).send(error);
-    });
+  Warehouse.findAll()
+    .then(data => response.json(data))
+    .catch(error => response.send(error));
 });
 
 router.post("/", (request, response) => {
   const { id, address } = request.body;
 
-  const query = DatabaseQueries.insertIntoTableValues("warehouses", {
-    id,
-    address: `"${address}"`
-  });
-
-  const promise = new Promise((resolve, reject) => {
-    pool.query(query, (error, data) => {
-      if (error) {
-        reject(error);
-      }
-
-      resolve();
-    });
-  });
-
-  return promise
-    .then(() => {
-      response.send();
-    })
-    .catch(error => {
-      response.status(500).send(error);
-    });
+  Warehouse.create({ id, address })
+    .then(data => response.send(data))
+    .catch(error => response.send(error));
 });
 
 router.put("/:id", (request, response) => {
   const id = request.params.id;
   const { address } = request.body;
 
-  const query = DatabaseQueries.updateTableValues("warehouses", id, {
-    address: `"${address}"`
-  });
-
-  const promise = new Promise((resolve, reject) => {
-    pool.query(query, (error, data) => {
-      if (error) {
-        reject(error);
-      }
-
-      resolve(data);
-    });
-  });
-
-  return promise
-    .then(data => {
-      response.send(data);
-    })
-    .catch(error => {
-      response.status(500).send(error);
-    });
+  Warehouse.update({ address }, { where: { id } })
+    .then(data => response.send(data))
+    .catch(error => response.send(error));
 });
 
 router.delete("/:id", (request, response) => {
   const id = request.params.id;
-  const query = DatabaseQueries.deleteValueFromTable("warehouses", id);
 
-  const promise = new Promise((resolve, reject) => {
-    pool.query(query, (error, data) => {
-      if (error) {
-        reject(error);
-      }
-
-      resolve();
-    });
-  });
-
-  return promise
-    .then(() => {
-      response.send();
-    })
-    .catch(error => {
-      response.status(500).send(error);
-    });
+  Warehouse.destroy({ where: { id } })
+    .then(() => response.sendStatus(204))
+    .catch(error => response.send(error));
 });
 
 module.exports = router;

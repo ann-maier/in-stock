@@ -33,7 +33,7 @@ const WarehousesModal = ({ id, showModal, setShowModal, handleSubmit }) => {
 };
 
 export const Warehouses = ({ selectedItem, setSelectedItem }) => {
-  const { id_warehouse: selectedWarehouseId = null } = selectedItem;
+  const { warehouse_id: selectedWarehouseId = null } = selectedItem;
 
   const [warehouses, setWareHouses] = React.useState([]);
   const [maxIndex, setMaxIndex] = React.useState(null);
@@ -118,7 +118,7 @@ export const Warehouses = ({ selectedItem, setSelectedItem }) => {
               .map(({ id, address }) => (
                 <tr
                   key={id}
-                  onClick={() => setSelectedItem({ id_warehouse: id })}
+                  onClick={() => setSelectedItem({ warehouse_id: id })}
                   className={
                     selectedWarehouseId === id ? "selected-item" : null
                   }
