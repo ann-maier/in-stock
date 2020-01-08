@@ -1,7 +1,8 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const cors = require("./middlewares/cors");
-const bodyParser = require("body-parser");
+const db = require("./sequelize");
 
 const warehousesRoutes = require("./routes/warehouses");
 const productsRoutes = require("./routes/products");
@@ -11,9 +12,11 @@ const app = express();
 const server = app.listen(8000);
 
 app.use(cors);
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 app.use(bodyParser.json());
 
 app.use("/warehouses", warehousesRoutes);

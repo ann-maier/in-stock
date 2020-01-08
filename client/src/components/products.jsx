@@ -59,7 +59,7 @@ const ProductsModal = ({ id, showModal, setShowModal, handleSubmit }) => {
 };
 
 export const Products = ({ selectedItem, setSelectedItem }) => {
-  const { id_product: selectedProductId = null } = selectedItem;
+  const { product_id: selectedProductId = null } = selectedItem;
 
   const [products, setProducts] = React.useState([]);
   const [maxIndex, setMaxIndex] = React.useState(null);
@@ -76,9 +76,13 @@ export const Products = ({ selectedItem, setSelectedItem }) => {
   const deleteProduct = id => {
     axios
       .delete(`${PRODUCTS_URL}/${id}`)
-      .then(() =>
-        setProducts(products.filter(({ id: productId }) => productId !== id))
-      )
+      .then(({ data }) => {
+        if (data.name === "SequelizeForeignKeyConstraintError") {
+          throw new Error();
+        }
+
+        setProducts(products.filter(({ id: productId }) => productId !== id));
+      })
       .catch(() =>
         alert(
           "Cannot delete or update a parent row: a foreign key constraint fails."
@@ -154,7 +158,7 @@ export const Products = ({ selectedItem, setSelectedItem }) => {
               .map(({ id, type, name, price }) => (
                 <tr
                   key={id}
-                  onClick={() => setSelectedItem({ id_product: id })}
+                  onClick={() => setSelectedItem({ product_id: id })}
                   className={selectedProductId === id ? "selected-item" : null}
                 >
                   <td>{id}</td>
